@@ -1,10 +1,9 @@
-
 import 'dart:io';
 import 'package:database_student/data_repository/dbHelper.dart';
 import 'package:database_student/model/student_model.dart';
 import 'package:flutter/material.dart';
 
-class StudentManager  {
+class StudentManager {
   static final StudentManager _instance = StudentManager._internal();
 
   factory StudentManager() {
@@ -17,13 +16,14 @@ class StudentManager  {
 
   bool isDark = false;
   TextEditingController nameController = TextEditingController();
-  TextEditingController preparationTimeController = TextEditingController();
-  TextEditingController instructionController = TextEditingController();
-  TextEditingController ingredientsController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+
   File? image;
 
   List<StudentModel> allStudents = [];
- 
 
   void changeIsDark() {
     isDark = !isDark;
@@ -31,27 +31,21 @@ class StudentManager  {
 
   Future<void> getRecipes() async {
     allStudents = await DbHelper.dbHelper.getAllStudents();
-  
+
     // favoriteRecipes = allRecipes.where((e) => e.isFavorite).toList();
   }
-  
 
   void insertNewStudent() {
     StudentModel studentModel = StudentModel(
-      name: nameController.text,
-      // isFavorite: false,
-      image: image,
-      preparationTime: int.parse(
-        preparationTimeController.text.isNotEmpty
-            ? preparationTimeController.text
-            : '0',
-      ),
-      instruction: instructionController.text,
-      ingredients: ingredientsController.text,
-    );
+        name: nameController.text,
+        image: image,
+        age: int.parse(ageController.text),
+        address: addressController.text,
+        email: emailController.text,
+        phoneNumber: int.parse(phoneNumberController.text));
 
     DbHelper.dbHelper.insetNewStudent(studentModel);
-    
+
     // getRecipes();
   }
 
@@ -59,7 +53,6 @@ class StudentManager  {
     await DbHelper.dbHelper.updateStudent(studentModel);
     // getRecipes();
   }
-
 
   void deleteRecipe(StudentModel studentModel) {
     DbHelper.dbHelper.deleteStudent(studentModel);

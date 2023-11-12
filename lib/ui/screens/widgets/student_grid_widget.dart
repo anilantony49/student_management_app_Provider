@@ -1,0 +1,47 @@
+import 'package:database_student/model/student_model.dart';
+import 'package:database_student/manager/student_manager.dart';
+import 'package:database_student/ui/screens/show_student_screen.dart';
+import 'package:flutter/material.dart';
+
+class StudentGridWidget extends StatelessWidget {
+  final StudentModel studentModel;
+  const StudentGridWidget(
+    this.studentModel, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    StudentManager studentManager = StudentManager();
+
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ShowStudentScreen(studentModel: studentModel)));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Card(
+          color: Colors.grey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundImage: FileImage(studentModel.image!),
+              ),
+              Text(
+                studentModel.name,
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -13,9 +13,8 @@ class ShowStudentScreen extends StatefulWidget {
   State<ShowStudentScreen> createState() => _ShowStudentScreenState();
 }
 
-
 class _ShowStudentScreenState extends State<ShowStudentScreen> {
-    void refresh() async {
+  void refresh() async {
     final data = await DbHelper.dbHelper.getAllStudents();
     setState(() {
       StudentManager().allStudents = data;
@@ -27,21 +26,25 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
     super.initState();
     refresh();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xC1C1C1C1),
         actions: [
           InkWell(
             onTap: () {
               StudentManager studentManager = StudentManager();
               studentManager.nameController.text = widget.studentModel.name;
-              studentManager.preparationTimeController.text =
-                  widget.studentModel.preparationTime.toString();
-              studentManager.ingredientsController.text =
-                  widget.studentModel.ingredients;
-              studentManager.instructionController.text =
-                  widget.studentModel.instruction;
+              studentManager.ageController.text =
+                  widget.studentModel.age.toString();
+              studentManager.addressController.text =
+                  widget.studentModel.address;
+              studentManager.phoneNumberController.text =
+                  widget.studentModel.phoneNumber.toString();
+              studentManager.emailController.text = widget.studentModel.email;
+
               studentManager.image = widget.studentModel.image;
 
               Navigator.push(
@@ -52,18 +55,53 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                 ),
               );
             },
-            child: Icon(Icons.edit),
+            child: const Icon(Icons.edit),
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           InkWell(
             onTap: () {
-              StudentManager().deleteRecipe(widget.studentModel);
-              refresh();
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      title: const Text('Delete'),
+                      content: const Text('Are you sure want to delete?'),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              StudentManager()
+                                  .deleteRecipe(widget.studentModel);
+                              refresh();
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const HomeScreen()));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content: Text('Delete succesfully'),
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(10),
+                              ));
+                            },
+                            child: const Text('Yes',style: TextStyle(color: Colors.grey),)),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('No',style: TextStyle(color: Colors.grey),))
+                      ],
+                    );
+                  });
             },
-            child: Icon(Icons.delete),
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Icon(Icons.delete),
+            ),
           )
         ],
       ),
@@ -71,7 +109,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: !StudentManager().isDark ? Colors.blue : null,
                 borderRadius: BorderRadius.circular(5),
@@ -81,8 +119,8 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                   ? const Center(
                       child: CircleAvatar(
                         radius: 40,
-                        backgroundImage: AssetImage(
-                            'assets/images/student image3.jpg'),
+                        backgroundImage:
+                            AssetImage('assets/images/student image3.jpg'),
                       ),
                     )
                   : Image.file(widget.studentModel.image!),
@@ -99,83 +137,125 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: !StudentManager().isDark ? Colors.blue[100] : null,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  Text(
-                    'Preparation time :',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '${widget.studentModel.preparationTime}mins',
-                    style: TextStyle(fontSize: 16),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: !StudentManager().isDark ? Colors.blue[100] : null,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Ingredients',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    widget.studentModel.ingredients,
-                    style: TextStyle(fontSize: 26),
-                  )
-                ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                // width: 500,
+                // margin: EdgeInsets.symmetric(horizontal: 50),
+                decoration: BoxDecoration(
+                  color: !StudentManager().isDark ? Colors.grey : null,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Age :',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      widget.studentModel.age.toString(),
+                      style: TextStyle(fontSize: 16),
+                    )
+                  ],
+                ),
               ),
             ),
             SizedBox(
               height: 10,
             ),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: !StudentManager().isDark ? Colors.blue[100] : null,
-                borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: !StudentManager().isDark ? Colors.grey : null,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Address',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      widget.studentModel.address,
+                      style: TextStyle(fontSize: 26),
+                    )
+                  ],
+                ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Instructions',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    widget.studentModel.instruction,
-                    style: TextStyle(fontSize: 26),
-                  )
-                ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: !StudentManager().isDark ? Colors.grey : null,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'phone number',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      widget.studentModel.phoneNumber.toString(),
+                      style: const TextStyle(fontSize: 26),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: !StudentManager().isDark ? Colors.grey : null,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'email',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      widget.studentModel.email,
+                      style: const TextStyle(fontSize: 26),
+                    )
+                  ],
+                ),
               ),
             )
           ],

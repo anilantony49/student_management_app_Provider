@@ -4,26 +4,28 @@ class StudentModel {
   int? id;
   late String name;
   File? image;
-  late int preparationTime;
-  late String ingredients;
-  late String instruction;
+  late int age;
+  late String address;
+  late String email;
+  late int phoneNumber;
 
   StudentModel(
       {this.id,
       required this.name,
       this.image,
-      required this.preparationTime,
-      required this.instruction,
-      required this.ingredients});
+      required this.age,
+      required this.address,
+      required this.email,
+      required this.phoneNumber});
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
-      // 'isFavorite': isFavorite? 1:0,
-      'preparationTime': preparationTime,
-      'ingredients': ingredients,
-      'instructions': instruction,
+      'age': age,
+      'address': address,
+      'email': email,
+      'phoneNumber': phoneNumber,
       'image': image == null ? '' : image!.path
     };
   }
@@ -32,9 +34,10 @@ class StudentModel {
     return StudentModel(
       id: map['id'],
       name: map['name'],
-      preparationTime: map['preparationTime'],
-      instruction: map['instructions'],
-      ingredients: map['ingredients'],
+      age: map['age'],
+      address: map['address'],
+      email: map['email'],
+      phoneNumber: map['phoneNumber'],
       image: map['image'] != null ? File(map['image']) : null,
     );
   }

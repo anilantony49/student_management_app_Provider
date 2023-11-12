@@ -10,11 +10,11 @@ class DbHelper {
   final String tableName = 'recipes';
   final String nameColumn = 'name';
   final String idColumn = 'id';
-  // final String isFavoriteColumn = 'isFavorite';
-  final String ingredientsColumn = 'ingredients';
-  final String instructionColumn = 'instructions';
-  final String preparationTimeColumn = 'preparationTime';
+  final String addressColumn = 'address';
+  final String phoneNumberColumn = 'phoneNumber';
+  final String ageColumn = 'age';
   final String imageColumn = 'image';
+  final String emailColumn = 'email';
 
   initDatabase() async {
     database = await connectToDatabase();
@@ -35,15 +35,13 @@ class DbHelper {
       // to create the table
       onCreate: (db, version) {
         db.execute(
-            'CREATE TABLE $tableName ($idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nameColumn TEXT,$preparationTimeColumn INTEGER,'
-            // '$isFavoriteColumn INTEGER,'
-            '$ingredientsColumn TEXT, $instructionColumn TEXT, $imageColumn TEXT)');
+            'CREATE TABLE $tableName ($idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nameColumn TEXT, $ageColumn INTEGER,'
+            '$addressColumn TEXT, $emailColumn TEXT, $phoneNumberColumn INTEGER, $imageColumn TEXT)');
       },
       onUpgrade: (db, oldVersion, newVersion) {
         db.execute(
-            'CREATE TABLE $tableName ($idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nameColumn TEXT, $preparationTimeColumn INTEGER,'
-            // '$isFavoriteColumn INTEGER,'
-            '$ingredientsColumn TEXT, $instructionColumn TEXT, $imageColumn TEXT)');
+            'CREATE TABLE $tableName ($idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nameColumn TEXT, $ageColumn INTEGER,'
+            '$addressColumn TEXT, $emailColumn TEXT, $phoneNumberColumn INTEGER, $imageColumn TEXT)');
       },
       onDowngrade: (db, oldVersion, newVersion) {
         db.delete(tableName);
@@ -82,10 +80,11 @@ class DbHelper {
         tableName,
         {
           nameColumn: studentModel.name,
-          preparationTimeColumn: studentModel.preparationTime,
+          ageColumn: studentModel.age,
           imageColumn: studentModel.image!.path,
-          ingredientsColumn: studentModel.ingredients,
-          instructionColumn: studentModel.instruction
+          addressColumn: studentModel.address,
+          emailColumn: studentModel.email,
+          phoneNumberColumn: studentModel.phoneNumber
         },
         where: '$idColumn=?',
         whereArgs: [studentModel.id]);

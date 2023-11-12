@@ -42,42 +42,55 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: const Color(0xC1C1C1C1),
           title: const Text('Edit Student'),
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                   controller: studentManager.nameController,
                   decoration: InputDecoration(
-                      label: Text('Name'),
+                      label: const Text(
+                        'Name',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15))),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextField(
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
                   keyboardType: TextInputType.number,
-                  controller: studentManager.preparationTimeController,
+                  controller: studentManager.ageController,
                   decoration: InputDecoration(
-                      label: Text('Age'),
+                      label: const Text(
+                        'Age',
+                        style: TextStyle(color: Colors.white),
+                      ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15))),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
                   children: [
                     PopupMenuButton(
-                        color: !studentManager.isDark ? Colors.blue[100] : null,
+                        color: !studentManager.isDark ? Colors.grey : null,
                         itemBuilder: (context) => [
                               PopupMenuItem(
                                   onTap: () =>
@@ -94,19 +107,23 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                               PopupMenuItem(
                                   onTap: () =>
                                       pickImage(context, ImageSource.gallery),
-                                  child: Row(
+                                  child: const Row(
                                     children: [
                                       Icon(Icons.image_outlined),
                                       SizedBox(
                                         width: 5,
                                       ),
-                                      Text('Seletct a Picture')
+                                      Text(
+                                        'Seletct a Picture',
+                                        style: TextStyle(color: Colors.white),
+                                      )
                                     ],
                                   ))
                             ]),
-                    Text(
+                    const Text(
                       'ADD A PICTURE',
-                      style: TextStyle(fontSize: 16),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     )
                   ],
                 ),
@@ -120,21 +137,23 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                             studentManager.image = null;
                             setState(() {});
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.cancel_outlined,
                             color: Colors.red,
                           ),
                         ),
                         studentManager.image != null
-                            ? Image.file(
-                                studentManager.image!,
-                                width: 100,
-                                height: 100,
+                            ? CircleAvatar(
+                                radius:
+                                    35, // Adjust the radius to fit your layout
+                                backgroundImage:
+                                    FileImage(studentManager.image!),
+                                // You can also set backgroundColor or foregroundColor for the CircleAvatar
                               )
                             : Container()
                       ],
                     )),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SingleChildScrollView(
@@ -142,17 +161,23 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                   child: SizedBox(
                     height: 100,
                     child: TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                       expands: true,
                       maxLines: null,
-                      controller: studentManager.ingredientsController,
+                      controller: studentManager.addressController,
                       decoration: InputDecoration(
-                          label: Text('Ingredients'),
+                          label: const Text(
+                            'Address',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(16))),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 SingleChildScrollView(
@@ -160,44 +185,93 @@ class _EditStudentScreenState extends State<EditStudentScreen> {
                   child: SizedBox(
                     height: 100,
                     child: TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                       expands: true,
                       maxLines: null,
-                      controller: studentManager.instructionController,
+                      controller: studentManager.phoneNumberController,
                       decoration: InputDecoration(
-                          label: Text('Instructions'),
+                          label: const Text(
+                            'Phone number',
+                            style: TextStyle(color: Colors.white),
+                          ),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15))),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
+                  height: 20,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: SizedBox(
+                    height: 100,
+                    child: TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      expands: true,
+                      maxLines: null,
+                      controller: studentManager.emailController,
+                      decoration: InputDecoration(
+                          label: const Text(
+                            'email',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                    ),
+                  ),
+                ),
+                const SizedBox(
                   height: 20,
                 ),
                 ElevatedButton(
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                      Color(0xC1C1C1C1),
+                    )),
                     onPressed: () {
                       widget.studentModel.name =
                           studentManager.nameController.text;
-                      widget.studentModel.preparationTime = int.parse(
-                          studentManager.preparationTimeController.text != ''
-                              ? studentManager.preparationTimeController.text
+                      widget.studentModel.age = int.parse(
+                          studentManager.ageController.text != ''
+                              ? studentManager.ageController.text
                               : '0');
                       widget.studentModel.image = studentManager.image;
-                      widget.studentModel.ingredients =
-                          studentManager.ingredientsController.text;
-                      widget.studentModel.instruction =
-                          studentManager.instructionController.text;
+                      widget.studentModel.address =
+                          studentManager.addressController.text;
+                      widget.studentModel.phoneNumber =
+                          int.parse(studentManager.phoneNumberController.text);
+                      widget.studentModel.email =
+                          studentManager.emailController.text;
 
                       studentManager.updateStudent(widget.studentModel);
                       studentManager.nameController.clear();
-                      studentManager.preparationTimeController.clear();
-                      studentManager.instructionController.clear();
-                      studentManager.ingredientsController.clear();
+                      studentManager.ageController.clear();
+                      studentManager.addressController.clear();
+                      studentManager.emailController.clear();
+                      studentManager.phoneNumberController.clear();
+
                       studentManager.image = null;
                       refresh();
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const HomeScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Edit Succesfully'),
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(10),
+                      ));
                     },
                     child: const Center(
-                      child: Text('Save Changes'),
+                      child: Text(
+                        'Save Changes',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ))
               ],
             ),

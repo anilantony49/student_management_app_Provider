@@ -41,9 +41,11 @@ class _InitAppState extends State<InitApp> {
       theme: StudentManager().isDark
           ? ThemeData.dark()
           : ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+            
+              scaffoldBackgroundColor: const Color(0xFF596157),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,),
+              useMaterial3: true,
+            ),
       title: 'Student database app',
       home: const SplashScreen(),
       routes: {

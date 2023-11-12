@@ -1,5 +1,5 @@
 import 'package:database_student/model/student_model.dart';
-import 'package:database_student/ui/screens/widgets/student_widget.dart';
+import 'package:database_student/ui/screens/widgets/student_list_widget.dart';
 import 'package:flutter/material.dart';
 
 class SearchStudentScreen extends StatefulWidget {
@@ -27,31 +27,39 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+                backgroundColor: const Color(0xC1C1C1C1),
+
         title: TextField(
           onChanged: (value) {
             filterStudents(value);
           },
-          decoration: const InputDecoration(icon: Icon(Icons.search,color: Colors.white,)),
+          decoration: const InputDecoration(
+              icon: Icon(
+            Icons.search,
+            color: Colors.black,
+          )),
         ),
         actions: [
-          IconButton(onPressed: (){
-            setState(() {
-              Navigator.pop(context);
-            });
-          }, icon:Icon(Icons.cancel))
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  Navigator.pop(context);
+                });
+              },
+              icon: Icon(Icons.cancel))
         ],
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child:widget.filterStudents.isNotEmpty ? ListView.builder(
-          itemCount: widget.filterStudents.length,
-          itemBuilder: (BuildContext context, int index){
-            return StudentWidget(widget.filterStudents[index]);
-          })
-          :
-         Center(
-          child: Text('Recipe not found'),
-        ),
+        child: widget.filterStudents.isNotEmpty
+            ? ListView.builder(
+                itemCount: widget.filterStudents.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return StudentListWidget(widget.filterStudents[index]);
+                })
+            : const Center(
+                child: Text('Student not found'),
+              ),
       ),
     );
   }
