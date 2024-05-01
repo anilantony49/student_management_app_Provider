@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 class DbHelper {
   late Database database;
   static DbHelper dbHelper = DbHelper();
-  final String tableName = 'recipes';
+  final String tableName = 'students';
   final String nameColumn = 'name';
   final String idColumn = 'id';
   final String addressColumn = 'address';
@@ -26,7 +26,7 @@ class DbHelper {
 
     // to specific name of database
 
-    String path = "$directory/recipe.db";
+    String path = "$directory/students.db";
 
     // to create database
     return openDatabase(
@@ -62,9 +62,9 @@ class DbHelper {
 
 // to delete one column from table
 
-  deleteStudent(StudentModel studentModel) {
+  deleteStudent(StudentModel studentModel) {  
     database.delete(tableName,
-        where: " $idColumn =?", whereArgs: [studentModel.id]);
+        where: "$idColumn =?", whereArgs: [studentModel.id]);
   }
 
 // to delete all of table

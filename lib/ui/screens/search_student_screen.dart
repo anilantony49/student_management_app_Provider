@@ -2,6 +2,7 @@ import 'package:database_student/model/student_model.dart';
 import 'package:database_student/ui/screens/widgets/student_list_widget.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchStudentScreen extends StatefulWidget {
   final List<StudentModel> students;
   List<StudentModel> filterStudents = [];
@@ -46,11 +47,11 @@ class _SearchStudentScreenState extends State<SearchStudentScreen> {
                   Navigator.pop(context);
                 });
               },
-              icon: Icon(Icons.cancel))
+              icon: const Icon(Icons.cancel))
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: widget.filterStudents.isNotEmpty
             ? ListView.builder(
                 itemCount: widget.filterStudents.length,

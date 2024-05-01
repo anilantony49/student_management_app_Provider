@@ -9,12 +9,11 @@ class StudentManager {
   factory StudentManager() {
     return _instance;
   }
-
-  StudentManager._internal() {
-    getRecipes();
+  
+  StudentManager._internal() {  
+    getStudents();
   }
 
-  bool isDark = false;
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -25,14 +24,8 @@ class StudentManager {
 
   List<StudentModel> allStudents = [];
 
-  void changeIsDark() {
-    isDark = !isDark;
-  }
-
-  Future<void> getRecipes() async {
+  Future<void> getStudents() async {
     allStudents = await DbHelper.dbHelper.getAllStudents();
-
-    // favoriteRecipes = allRecipes.where((e) => e.isFavorite).toList();
   }
 
   void insertNewStudent() {
@@ -46,16 +39,16 @@ class StudentManager {
 
     DbHelper.dbHelper.insetNewStudent(studentModel);
 
-    // getRecipes();
+    // getStudents();
   }
 
   Future<void> updateStudent(StudentModel studentModel) async {
     await DbHelper.dbHelper.updateStudent(studentModel);
-    // getRecipes();
+    // getStudents();
   }
 
-  void deleteRecipe(StudentModel studentModel) {
+  void deleteStudents(StudentModel studentModel) {
     DbHelper.dbHelper.deleteStudent(studentModel);
-    // getRecipes();
+    // getStudents();
   }
 }

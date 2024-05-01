@@ -30,7 +30,7 @@ class InitApp extends StatefulWidget {
 class _InitAppState extends State<InitApp> {
   @override
   void initState() {
-    StudentManager().getRecipes();
+    StudentManager().getStudents();
     super.initState();
   }
 
@@ -38,12 +38,11 @@ class _InitAppState extends State<InitApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: StudentManager().isDark
-          ? ThemeData.dark()
-          : ThemeData(
-            
+      theme:  ThemeData(
               scaffoldBackgroundColor: const Color(0xFF596157),
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple,),
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.deepPurple,
+              ),
               useMaterial3: true,
             ),
       title: 'Student database app',

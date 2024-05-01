@@ -1,7 +1,9 @@
 import 'package:database_student/model/student_model.dart';
-import 'package:database_student/manager/student_manager.dart';
+
 import 'package:database_student/ui/screens/show_student_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'constants.dart';
 
 class StudentListWidget extends StatelessWidget {
   final StudentModel studentModel;
@@ -12,7 +14,7 @@ class StudentListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StudentManager studentManager = StudentManager();
+    // StudentManager studentManager = StudentManager();
 
     return InkWell(
       onTap: () {
@@ -31,13 +33,15 @@ class StudentListWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListTile(
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              tileColor: !studentManager.isDark ? Colors.grey : null,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              tileColor:kColor,
               leading: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 3),
                 child: CircleAvatar(
                   radius: 35,
+
+                  // backgroundImage: studentManager.image==null||studentManager.image!.isEmpty ?  AssetImage('assets/images/blank profile.jpg'):FileImage(studentManager.image!),
                   backgroundImage: FileImage(studentModel.image!),
                 ),
               ),

@@ -5,6 +5,8 @@ import 'package:database_student/manager/student_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'widgets/constants.dart';
+
 class NewStudentScreen extends StatefulWidget {
   const NewStudentScreen({super.key});
 
@@ -54,9 +56,7 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
+                kHeight2,
                   TextFormField(
                     style: const TextStyle(
                       color: Colors.white,
@@ -77,9 +77,7 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                       }
                     },
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                kHeight1,
                   TextFormField(
                       style: const TextStyle(
                         color: Colors.white,
@@ -100,13 +98,11 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                           return null;
                         }
                       }),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                kHeight1,
                   Row(
                     children: [
                       PopupMenuButton(
-                          color: !studentManager.isDark ? Colors.grey : null,
+                          color: kColor,
                           itemBuilder: (context) => [
                                 PopupMenuItem(
                                     onTap: () =>
@@ -147,8 +143,10 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                         children: [
                           InkWell(
                             onTap: () {
-                              studentManager.image = null;
-                              setState(() {});
+                            
+                              setState(() {
+                                  studentManager.image = null;
+                              });
                             },
                             child: const Icon(
                               Icons.cancel_outlined,
@@ -157,18 +155,14 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                           ),
                           studentManager.image != null
                               ? CircleAvatar(
-                                  radius:
-                                      35, // Adjust the radius to fit your layout
+                                  radius: 35,
                                   backgroundImage:
                                       FileImage(studentManager.image!),
-                                  // You can also set backgroundColor or foregroundColor for the CircleAvatar
                                 )
                               : Container(),
                         ],
                       )),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                 kHeight1,
                   SingleChildScrollView(
                     child: SizedBox(
                       height: 100,
@@ -195,9 +189,7 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                           }),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                kHeight1,
                   TextFormField(
                       style: const TextStyle(
                         color: Colors.white,
@@ -218,9 +210,7 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                           return null;
                         }
                       }),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                 kHeight1,
                   TextFormField(
                       style: const TextStyle(
                         color: Colors.white,
@@ -240,9 +230,7 @@ class _NewStudentScreenState extends State<NewStudentScreen> {
                           return null;
                         }
                       }),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                 kHeight1,
                   ElevatedButton(
                       style: const ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(

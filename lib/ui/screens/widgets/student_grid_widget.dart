@@ -1,7 +1,8 @@
 import 'package:database_student/model/student_model.dart';
-import 'package:database_student/manager/student_manager.dart';
 import 'package:database_student/ui/screens/show_student_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'constants.dart';
 
 class StudentGridWidget extends StatelessWidget {
   final StudentModel studentModel;
@@ -12,7 +13,7 @@ class StudentGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StudentManager studentManager = StudentManager();
+    // StudentManager studentManager = StudentManager();
 
     return InkWell(
       onTap: () {
@@ -25,7 +26,7 @@ class StudentGridWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
-          color: Colors.grey,
+          color:kColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

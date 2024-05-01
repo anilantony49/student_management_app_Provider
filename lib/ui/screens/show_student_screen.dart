@@ -5,6 +5,8 @@ import 'package:database_student/ui/screens/edit_student_screen.dart';
 import 'package:database_student/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'widgets/constants.dart';
+
 class ShowStudentScreen extends StatefulWidget {
   final StudentModel studentModel;
   const ShowStudentScreen({super.key, required this.studentModel});
@@ -45,7 +47,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                   widget.studentModel.phoneNumber.toString();
               studentManager.emailController.text = widget.studentModel.email;
 
-              studentManager.image = widget.studentModel.image;
+              studentManager.image = widget.studentModel.image!;
 
               Navigator.push(
                 context,
@@ -74,7 +76,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                         TextButton(
                             onPressed: () {
                               StudentManager()
-                                  .deleteRecipe(widget.studentModel);
+                                  .deleteStudents(widget.studentModel);
                               refresh();
                               Navigator.push(
                                   context,
@@ -88,12 +90,12 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                                 margin: EdgeInsets.all(10),
                               ));
                             },
-                            child: const Text('Yes',style: TextStyle(color: Colors.grey),)),
+                            child: const Text('Yes',style: TextStyle(color:kColor),)),
                         TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: const Text('No',style: TextStyle(color: Colors.grey),))
+                            child: const Text('No',style: TextStyle(color:kColor),))
                       ],
                     );
                   });
@@ -111,32 +113,28 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
             Container(
               margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: !StudentManager().isDark ? Colors.blue : null,
+                color:kColor,
                 borderRadius: BorderRadius.circular(5),
               ),
               height: 170,
-              child: widget.studentModel.image == null
+              child: widget.studentModel.image == null || widget.studentModel.image!.path.isEmpty
                   ? const Center(
                       child: CircleAvatar(
                         radius: 40,
                         backgroundImage:
-                            AssetImage('assets/images/student image3.jpg'),
+                            AssetImage('assets/images/blank profile.jpg'),
                       ),
                     )
                   : Image.file(widget.studentModel.image!),
             ),
-            SizedBox(
-              height: 10,
-            ),
+          kHeight2,
             Center(
               child: Text(
                 widget.studentModel.name,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+          kHeight1,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -144,7 +142,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                 // width: 500,
                 // margin: EdgeInsets.symmetric(horizontal: 50),
                 decoration: BoxDecoration(
-                  color: !StudentManager().isDark ? Colors.grey : null,
+                  color:kColor ,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
@@ -165,47 +163,41 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+           kHeight2,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: !StudentManager().isDark ? Colors.grey : null,
+                  color:kColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Address',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                   kHeight1,
                     Text(
                       widget.studentModel.address,
-                      style: TextStyle(fontSize: 26),
+                      style: const TextStyle(fontSize: 26),
                     )
                   ],
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
+          kHeight2,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: !StudentManager().isDark ? Colors.grey : null,
+                  color:kColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -216,9 +208,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                  kHeight1,
                     Text(
                       widget.studentModel.phoneNumber.toString(),
                       style: const TextStyle(fontSize: 26),
@@ -227,16 +217,14 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+         kHeight2,
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: !StudentManager().isDark ? Colors.grey : null,
+                  color:kColor ,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -247,9 +235,7 @@ class _ShowStudentScreenState extends State<ShowStudentScreen> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                  kHeight1,
                     Text(
                       widget.studentModel.email,
                       style: const TextStyle(fontSize: 26),

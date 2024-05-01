@@ -3,8 +3,9 @@ import 'package:database_student/manager/student_manager.dart';
 import 'package:database_student/ui/screens/search_student_screen.dart';
 import 'package:database_student/ui/screens/widgets/popup_menu_button.dart';
 import 'package:database_student/ui/screens/widgets/student_grid_widget.dart';
-import 'package:database_student/ui/screens/widgets/student_list_widget.dart';
 import 'package:flutter/material.dart';
+
+import 'widgets/student_list_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
