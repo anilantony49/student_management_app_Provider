@@ -1,43 +1,17 @@
-import 'package:database_student/data_repository/dbHelper.dart';
 import 'package:database_student/manager/student_manager.dart';
 import 'package:database_student/ui/screens/search_student_screen.dart';
 import 'package:database_student/ui/screens/widgets/popup_menu_button.dart';
 import 'package:database_student/ui/screens/widgets/student_grid_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/student_list_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _MainStudentScreenState();
-}
-
-class _MainStudentScreenState extends State<HomeScreen> {
-  bool isGridView = false;
-  void refresh() async {
-    final data = await DbHelper.dbHelper.getAllStudents();
-    setState(() {
-      StudentManager().allStudents = data;
-    });
-  }
-
-  void toogleView() {
-    setState(() {
-      isGridView = !isGridView;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    refresh();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    StudentManager studentManager = StudentManager();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xC1C1C1C1),
@@ -47,35 +21,44 @@ class _MainStudentScreenState extends State<HomeScreen> {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                   builder: (context) => SearchStudentScreen(
-                      students: studentManager.allStudents)),
+                      students: Provider.of<StudentManager>(context).allStudents)),
             ),
             child: const Icon(Icons.search),
           ),
-          IconButton(
-            onPressed: toogleView,
-            icon: isGridView
-                ? const Icon(Icons.list)
-                : const Icon(Icons.grid_view),
+         Consumer<StudentManager>(
+            builder: (context, studentManager, child) {
+              return IconButton(
+                onPressed: () => studentManager.toggleView(),
+                icon: studentManager.isGridView
+                    ? const Icon(Icons.list)
+                    : const Icon(Icons.grid_view),
+              );
+            },
           ),
           const MyPopupMenuButton()
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        
         backgroundColor: const Color(0xC1C1C1C1),
         onPressed: () async {
           await Navigator.pushNamed(context, '/new_student_screen');
+          //  studentProvider.refresh();
           Navigator.pushReplacementNamed(context, '/main_screen');
         },
         child: const Icon(Icons.add),
       ),
-      
-      body: isGridView ? buildGridView() : buildListView(),
+     body: Consumer<StudentManager>(
+        builder: (context, studentManager, child) {
+          return studentManager.isGridView
+              ? buildGridView(studentManager)
+              : buildListView(studentManager);
+        },
+      ),
     );
   }
 
-  Widget buildListView() {
-    StudentManager studentManager = StudentManager();
+  Widget buildListView(StudentManager studentManager) {
+    // StudentManager studentManager = StudentManager();
 
     return ListView.builder(
         itemCount: studentManager.allStudents.length,
@@ -84,8 +67,8 @@ class _MainStudentScreenState extends State<HomeScreen> {
         });
   }
 
-  Widget buildGridView() {
-    StudentManager studentManager = StudentManager();
+  Widget buildGridView(StudentManager studentManager) {
+    // StudentManager studentManager = StudentManager();
 
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

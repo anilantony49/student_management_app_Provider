@@ -31,7 +31,7 @@ class StudentListWidget extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
             child: ListTile(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),

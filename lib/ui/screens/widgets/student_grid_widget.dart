@@ -24,7 +24,7 @@ class StudentGridWidget extends StatelessWidget {
                     ShowStudentScreen(studentModel: studentModel)));
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: Card(
           color:kColor,
           child: Column(

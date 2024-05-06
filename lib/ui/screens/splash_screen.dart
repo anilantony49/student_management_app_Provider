@@ -17,13 +17,9 @@ class SplashScreen extends StatelessWidget {
         backgroundImage: AssetImage(
           'assets/images/student image.jpg',
         ),
-        //   child: CircleAvatar(
-
-        //   radius: 40,
-
-        // ),
+       
       ),
-      nextScreen: const HomeScreen(),
+      nextScreen:  const HomeScreen(),
       splashTransition: SplashTransition.rotationTransition,
       backgroundColor: Colors.black,
     );

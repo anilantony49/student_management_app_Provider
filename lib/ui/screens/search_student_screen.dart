@@ -1,66 +1,76 @@
 import 'package:database_student/model/student_model.dart';
 import 'package:database_student/ui/screens/widgets/student_list_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
-class SearchStudentScreen extends StatefulWidget {
-  final List<StudentModel> students;
-  List<StudentModel> filterStudents = [];
-  SearchStudentScreen({super.key, required this.students}) {
-    filterStudents = students;
+class SearchStudentProvider extends ChangeNotifier {
+  late List<StudentModel> _students;
+  List<StudentModel> _filterStudents = [];
+
+  List<StudentModel> get filterStudents => _filterStudents;
+
+  void initialize(List<StudentModel> students) {
+    _students = students;
+    _filterStudents = students;
   }
 
-  @override
-  State<SearchStudentScreen> createState() => _SearchStudentScreenState();
+  void filterStudent(String value) {
+    _filterStudents = _students
+        .where((student) => student.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
 }
 
-class _SearchStudentScreenState extends State<SearchStudentScreen> {
-  void filterStudents(value) {
-    setState(() {
-      widget.filterStudents = widget.students
-          .where((student) =>
-              student.name.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    });
-  }
+class SearchStudentScreen extends StatelessWidget {
+  final List<StudentModel> students;
+
+  const SearchStudentScreen({Key? key, required this.students}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<SearchStudentProvider>(context, listen: false);
+    provider.initialize(students);
+
     return Scaffold(
       appBar: AppBar(
-                backgroundColor: const Color(0xC1C1C1C1),
-
+        backgroundColor: const Color(0xC1C1C1C1),
         title: TextField(
           onChanged: (value) {
-            filterStudents(value);
+            provider.filterStudent(value);
           },
           decoration: const InputDecoration(
-              icon: Icon(
-            Icons.search,
-            color: Colors.black,
-          )),
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+          ),
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context);
-                });
-              },
-              icon: const Icon(Icons.cancel))
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.cancel),
+          )
         ],
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
-        child: widget.filterStudents.isNotEmpty
-            ? ListView.builder(
-                itemCount: widget.filterStudents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return StudentListWidget(widget.filterStudents[index]);
-                })
-            : const Center(
-                child: Text('Student not found'),
-              ),
+        child: Consumer<SearchStudentProvider>(
+          builder: (context, provider, _) {
+            return provider.filterStudents.isNotEmpty
+                ? ListView.builder(
+                    itemCount: provider.filterStudents.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return StudentListWidget(provider.filterStudents[index]);
+                    },
+                  )
+                : const Center(
+                    child: Text('Student not found'),
+                  );
+          },
+        ),
       ),
     );
   }
